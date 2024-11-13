@@ -1,4 +1,5 @@
 import { Priority, Status } from '@prisma/client';
+import { Type } from 'class-transformer';
 import {
   IsDate,
   IsEnum,
@@ -18,6 +19,7 @@ export class UpdateTodoDto {
 
   @IsDate()
   @IsOptional()
+  @Type(() => Date)
   dueDate: Date;
 
   @IsEnum(Priority)

@@ -8,6 +8,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { TodosService } from './todos.service';
@@ -39,7 +40,7 @@ export class TodosController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Delete('/update/:id')
+  @Put('/update/:id')
   updateById(
     @Param('id', ParseIntPipe) todo_id: number,
     @Body() updateTodoDto: UpdateTodoDto,

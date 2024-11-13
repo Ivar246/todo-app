@@ -15,14 +15,15 @@ datasource db {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
+  id            Int            @id @default(autoincrement())
   username      String
-  email         String   @unique
+  email         String         @unique
   password_hash String
-  role          Role     @default(USER)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  role          Role           @default(USER)
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
   Todo          Todo[]
+  Notification  Notification[]
 
   @@map("users")
 }
@@ -42,6 +43,20 @@ model Todo {
   @@map("todos")
 }
 
+model Notification {
+  id      Int                @id @default(autoincrement())
+  message String
+  type    NotificationType   @default(INFO)
+  status  NotificationStatus @default(UNREAD)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user       User?    @relation(fields: [user_id], references: [id])
+  user_id    Int?
+
+  @@map("notifications")
+}
+
 enum Role {
   ADMIN
   USER
@@ -56,4 +71,14 @@ enum Priority {
 enum Status {
   COMPLETE
   INCOMPLETE
+}
+
+enum NotificationStatus {
+  READ
+  UNREAD
+}
+
+enum NotificationType {
+  WELCOME
+  INFO
 }

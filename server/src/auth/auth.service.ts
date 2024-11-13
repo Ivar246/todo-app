@@ -3,7 +3,6 @@ import {
   ConflictException,
   Injectable,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { LoginDto, SignupDto } from './dto';
 import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
@@ -15,9 +14,8 @@ import { UsersService } from 'src/users/users.service';
 export class AuthService {
   constructor(
     private userService: UsersService,
-    private prismaService: PrismaService,
     private jwt: JwtService,
-    config: ConfigService,
+    private config: ConfigService,
   ) {}
 
   async register(dto: SignupDto): Promise<UserWithoutPassword> {
@@ -37,9 +35,7 @@ export class AuthService {
   ): Promise<{ access_token: string; user: UserWithoutPassword }> {
     try {
       // check if user with email exist
-      const user = await this.prismaService.user.findUnique({
-        where: { email: dto.email },
-      });
+      const user = await this.userService.fetchOneByEmail(dto.email);
 
       if (!user) throw new BadRequestException("user with email doesn't exist");
 
@@ -57,7 +53,7 @@ export class AuthService {
 
       // generate and send token
       const token = this.jwt.sign(payload, {
-        secret: 'lajflkajkldfjska',
+        secret: this.config.get('ACCESS_TOKEN_SECRET'),
         expiresIn: '1d',
       });
 

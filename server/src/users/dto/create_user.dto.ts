@@ -10,7 +10,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class SignupDto {
+export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(30, { message: 'length of username exceed 30' })

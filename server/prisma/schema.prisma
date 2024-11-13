@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
 }
 
 datasource db {
@@ -15,14 +16,44 @@ datasource db {
 
 model User {
   id            Int      @id @default(autoincrement())
+  username      String
   email         String   @unique
   password_hash String
   role          Role     @default(USER)
   created_at    DateTime @default(now())
-  update_at     DateTime @updatedAt
+  updated_at    DateTime @updatedAt
+  Todo          Todo[]
+
+  @@map("users")
+}
+
+model Todo {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  dueDate     DateTime
+  priority    Priority @default(HIGH)
+  status      Status   @default(INCOMPLETE)
+  user_id     Int
+  user        User     @relation(fields: [user_id], references: [id])
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("todos")
 }
 
 enum Role {
   ADMIN
   USER
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum Status {
+  COMPLETE
+  INCOMPLETE
 }

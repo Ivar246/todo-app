@@ -5,6 +5,8 @@ import TodoCard, { TodoCardProps } from "../components/TodoCard";
 import Grid from "@mui/material/Grid2";
 // import { experimentalStyled as styled } from "@mui/material/styles";
 import { todosMock } from "../todos";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: "#fff",
@@ -19,17 +21,26 @@ import { todosMock } from "../todos";
 const MyTodo = () => {
   const [showModel, setShowModel] = useState<Boolean>(false);
   const [myTodos, setMyTodos] = useState<TodoCardProps[]>(todosMock);
-
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const fetchTodos = async () => {
-    console.log(myTodos);
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/todos/${currentUser?.id}`
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+      setMyTodos(data.todos);
+      console.log(myTodos);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  // handling fetching todos
   useEffect(() => {
     fetchTodos();
   }, [myTodos]);
 
-  const handleDelete = async () => {
-    const res = await fetch("http://localhost:3000/");
-  };
   return (
     <>
       <Container sx={{ marginTop: "5rem" }}>

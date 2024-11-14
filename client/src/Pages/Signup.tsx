@@ -3,7 +3,6 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -29,7 +28,6 @@ const Signup: React.FC = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {

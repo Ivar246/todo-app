@@ -1,9 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export type Role = "ADMIN" | "USER";
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  role: Role;
+}
+
 interface userState {
   isLoggedIn: boolean;
   token: string | null;
-  currentUser: null | {};
+  currentUser: null | User;
 }
 
 const initialState: userState = {

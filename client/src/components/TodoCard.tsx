@@ -21,9 +21,7 @@ export interface TodoCardProps {
 }
 
 const TodoCard = ({ ...props }: TodoCardProps) => {
-  const { isLoggedIn, currentUser } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   return (
     <Card sx={{ maxWidth: 345 }}>

@@ -10,8 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../redux/store";
-import { Padding } from "@mui/icons-material";
-import { ThemeContext } from "@emotion/react";
+
 import { useDispatch } from "react-redux";
 import { logOutSuccess } from "../redux/user/userSlice";
 

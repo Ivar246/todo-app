@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
 } from '@nestjs/common';
 import * as argon from 'argon2';
@@ -39,7 +40,7 @@ export class UsersService {
     }
   }
 
-  async fetchOneById(user_id: number) {
+  async fetchOneById(user_id: number, currentUser: Partial<User>) {
     try {
       const user = await this.prismaService.user.findUnique({
         where: { id: user_id },
@@ -47,7 +48,10 @@ export class UsersService {
 
       if (!user)
         throw new BadRequestException(`user with id ${user_id} doesn't exist`);
-
+      if (currentUser.role !== Role.ADMIN && currentUser.id !== user.id)
+        throw new ForbiddenException(
+          'You are not allowed to delete this user.',
+        );
       return user;
     } catch (error) {
       throw error;
@@ -81,7 +85,7 @@ export class UsersService {
     }
   }
 
-  async deleteById(user_id: number) {
+  async deleteById(user_id: number, currentUser: Partial<User>) {
     try {
       // check if user exist or not, if exist then delete  else throw error
       let user = await this.prismaService.user.findUnique({
@@ -92,6 +96,10 @@ export class UsersService {
         throw new BadRequestException(`user with ${user_id} doesn't exist.`);
       }
 
+      if (currentUser.role !== Role.ADMIN && currentUser.id !== user.id)
+        throw new ForbiddenException(
+          'You are not allowed to delete this user.',
+        );
       user = await this.prismaService.user.delete({
         where: { id: user_id },
       });

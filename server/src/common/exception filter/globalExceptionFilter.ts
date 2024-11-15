@@ -25,20 +25,10 @@ export class GlobalExceptionsFilter extends BaseExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    console.log(exception);
-    const myResponseObj: MyResponseObj = {
-      statusCode: 500,
-      timestamp: new Date().toISOString(),
-      path: request.url,
-      response: '',
-    };
 
     if (exception instanceof MulterError) {
-      myResponseObj.statusCode = 400;
-      myResponseObj.response = exception.message;
+      response.status(400).json(exception);
     }
-    response.status(myResponseObj.statusCode).json(myResponseObj);
-
     super.catch(exception, host);
   }
 }

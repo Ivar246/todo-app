@@ -1,7 +1,13 @@
 import { TodoFilterDto } from './dto/todoFilter.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { CreateTodoDto, UpdateTodoDto } from './dto';
+import { Role } from '@prisma/client';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class TodosService {
@@ -118,7 +124,7 @@ export class TodosService {
     }
   }
 
-  async updateById(todo_id: number, dto: UpdateTodoDto) {
+  async updateById(todo_id: number, dto: UpdateTodoDto, user: Partial<User>) {
     try {
       const todo = await this.prismaService.todo.findFirst({
         where: { id: todo_id },
@@ -127,6 +133,12 @@ export class TodosService {
       if (!todo)
         throw new BadRequestException(`todo with id ${todo_id} doesn't exist`);
 
+      // check admin and ownership
+      if (user.role !== Role.ADMIN && todo.user_id !== user) {
+        throw new ForbiddenException(
+          'you are not allowed to delete this resource',
+        );
+      }
       const updatedTodo = await this.prismaService.todo.update({
         where: { id: todo_id },
         data: { ...dto },
@@ -138,7 +150,7 @@ export class TodosService {
     }
   }
 
-  async deleteById(todo_id: number) {
+  async deleteById(todo_id: number, user: Partial<User>) {
     try {
       const todo = await this.prismaService.todo.findFirst({
         where: { id: todo_id },
@@ -147,6 +159,12 @@ export class TodosService {
       if (!todo)
         throw new BadRequestException(`todo with id ${todo_id} doesn't exist`);
 
+      // check admin and ownership
+      if (user.role !== Role.ADMIN && todo.user_id !== user) {
+        throw new ForbiddenException(
+          'you are not allowed to delete this resource',
+        );
+      }
       const deletedTodo = await this.prismaService.todo.delete({
         where: { id: todo_id },
       });

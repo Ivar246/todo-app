@@ -19,6 +19,7 @@ model User {
   username      String
   email         String         @unique
   password_hash String
+  isFirstLogin  Boolean        @default(false)
   role          Role           @default(USER)
   created_at    DateTime       @default(now())
   updated_at    DateTime       @updatedAt
@@ -35,6 +36,7 @@ model Todo {
   dueDate     DateTime
   priority    Priority @default(HIGH)
   status      Status   @default(INCOMPLETE)
+  imageUrl    String?
   user_id     Int
   user        User     @relation(fields: [user_id], references: [id])
   created_at  DateTime @default(now())

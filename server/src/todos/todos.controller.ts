@@ -10,14 +10,28 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto, TodoFilterDto, UpdateTodoDto } from './dto';
 import { Public, User } from 'src/common/decorators';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerConfig } from './config';
 
-@Controller('todo')
+@Controller('todos')
 export class TodosController {
   constructor(private todoService: TodosService) {}
+
+  @Public()
+  @UseInterceptors(FileInterceptor('image', multerConfig))
+  @Post('/upload/:id')
+  upload(
+    @Param('id', ParseIntPipe) todo_id: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.todoService.upload(file.filename, todo_id);
+  }
 
   @HttpCode(HttpStatus.CREATED)
   @Post('/create')
@@ -25,10 +39,18 @@ export class TodosController {
     return this.todoService.create(todoDto, user_id);
   }
 
+  @Public()
   @HttpCode(HttpStatus.OK)
-  @Get('/todos')
+  @Get('/')
   fetchAll(@Query() todoFilterDto: TodoFilterDto) {
     return this.todoService.fetchAll(todoFilterDto);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Get('/search')
+  search(@Query('q') q: string) {
+    return this.todoService.search(q);
   }
 
   @HttpCode(HttpStatus.OK)
@@ -52,13 +74,5 @@ export class TodosController {
   @Delete('/delete/:id')
   deleteById(@Param('id', ParseIntPipe) todo_id: number) {
     return this.todoService.deleteById(todo_id);
-  }
-
-  @Public()
-  @HttpCode(HttpStatus.OK)
-  @Get('/todos/search')
-  search(@Query('q') q: string) {
-    console.log('finally searchin');
-    return this.todoService.search(q);
   }
 }

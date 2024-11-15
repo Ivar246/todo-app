@@ -69,7 +69,7 @@ export class TodosService {
         },
       });
 
-      return todos;
+      return { todos };
     } catch (error) {
       console.log(error.message);
       throw error;
@@ -92,7 +92,7 @@ export class TodosService {
 
       if (!todo)
         throw new BadRequestException(`todo with id ${todo_id} doesn't exist`);
-      return todo;
+      return { todo };
     } catch (error) {
       throw error;
     }
@@ -111,7 +111,7 @@ export class TodosService {
         },
       });
 
-      return todos;
+      return { todos };
     } catch (error) {
       console.log(error.message);
       throw error;
@@ -150,6 +150,24 @@ export class TodosService {
       const deletedTodo = await this.prismaService.todo.delete({
         where: { id: todo_id },
       });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async upload(filename: string, todo_id: number) {
+    try {
+      const imageUrl = 'http://localhost:3000/' + filename;
+
+      const res = await this.prismaService.todo.update({
+        where: { id: todo_id },
+        data: {
+          imageUrl: imageUrl,
+        },
+      });
+
+      return { updateTodo: res };
+      return {};
     } catch (error) {
       throw error;
     }

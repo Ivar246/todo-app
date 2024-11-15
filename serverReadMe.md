@@ -48,6 +48,14 @@ This is the backend server for a Todo application, built with [NestJS](https://n
 
 - **GET** `/api/todos/search?q=<searchTerm>` - Search for todos by title or description
 
+### image upload
+
+- **post** `/api/todos/upload/:todo_id` - Search for todos by title or description
+
+### Serving image
+
+- http://localhost:3000/{image_name}
+
 Each endpoint requires appropriate authentication (JWT token in the headers for protected routes) and may include validation for incoming data. Detailed request and response schemas are available via Swagger.
 
 ## Getting Started
@@ -71,13 +79,20 @@ Ensure you have the following installed:
    cd todo-app/server
    ```
 
-2. **Install Dependencies:**
+2. **Install Nest cli:**
+
+   ```bash
+   npm install -g @nestjs/cli
+
+   ```
+
+3. **Install Dependencies:**
 
    ```bash
    npm install
    ```
 
-3. **Configure Environment Variable:**
+4. **Configure Environment Variable:**
 
    ````bash
    DATABASE_URL=postgres://user:password@localhost:5432/todoapp
@@ -85,12 +100,18 @@ Ensure you have the following installed:
 
    ````
 
-4. **Setup Database:**
+5. **Setup Database:**
 
    Run the following command to initialize Prisma and apply any migrations:
 
    ```bash
    npx prisma migrate dev
+   ```
+
+6. **Start nestjs server:**
+
+   ```bash
+   npm run start:dev
    ```
 
 ## Technologies Used

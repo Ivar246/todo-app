@@ -5,7 +5,6 @@ import {
   Typography,
   List,
   ListItem,
-  InputBase,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -19,12 +18,25 @@ const StyledToolbar = styled(Toolbar)({
   justifyContent: "space-between",
 });
 
-const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "#fff",
-  padding: "0 10px",
-  borderRadius: theme.shape.borderRadius,
-  width: "40%",
-}));
+const StyledTypography = styled(Typography)({
+  color: "#fff",
+  fontWeight: "bold",
+  "&:hover": {
+    cursor: "pointer",
+    transform: "scale(1.02)",
+    color: "#fff",
+  },
+  "&:hover::after": {
+    content: '""',
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    height: "2px",
+    backgroundColor: "#fff",
+    transition: "width 0.3s ease",
+  },
+});
 
 const Header = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
@@ -40,29 +52,26 @@ const Header = () => {
     >
       <StyledToolbar>
         <Link to="/" style={{ textDecoration: "none", color: "#fff" }}>
-          <Typography variant="h6">Todo app</Typography>
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: "bold", transform: "scale(1.02)" }}
+          >
+            Todo App
+          </Typography>
         </Link>
 
-        <Search>
-          <InputBase fullWidth placeholder="search..." />
-        </Search>
         <List sx={{ display: "flex", width: "12rem" }}>
           {isLoggedIn ? (
-            <ListItem onClick={handleLogout}>
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  color: "#fff",
-                  "&:hover": {
-                    cursor: "pointer",
-                    transform: "scale(1.02)",
-                    color: "#fff",
-                  },
-                }}
-              >
-                Logout
-              </Typography>
-            </ListItem>
+            <>
+              <ListItem>
+                <Link to="/todos" style={{ textDecoration: "none" }}>
+                  <StyledTypography>Todos</StyledTypography>
+                </Link>
+              </ListItem>
+              <ListItem onClick={handleLogout}>
+                <StyledTypography>Logout</StyledTypography>
+              </ListItem>
+            </>
           ) : (
             <>
               <ListItem>
@@ -70,7 +79,7 @@ const Header = () => {
                   to="/login"
                   style={{ textDecoration: "none", color: "#fff" }}
                 >
-                  <Typography>Login</Typography>
+                  <StyledTypography>Login</StyledTypography>
                 </Link>
               </ListItem>
               <ListItem>
@@ -78,7 +87,7 @@ const Header = () => {
                   to="/signup"
                   style={{ textDecoration: "none", color: "#fff" }}
                 >
-                  <Typography>Sign Up </Typography>
+                  <StyledTypography>Sign Up </StyledTypography>
                 </Link>
               </ListItem>
             </>

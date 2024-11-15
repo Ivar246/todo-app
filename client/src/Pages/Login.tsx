@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Container,
-  Icon,
   IconButton,
   Modal,
   TextField,
@@ -46,7 +45,6 @@ interface LoginState {
   password: string;
 }
 
-interface LoginResponse {}
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginState>({
     email: "",

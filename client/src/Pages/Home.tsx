@@ -1,32 +1,44 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
 import { todosMock } from "../todos";
-import { useState } from "react";
-import Grid from "@mui/material/Grid2";
-import TodoCard from "../components/TodoCard";
-import styled from "@emotion/styled";
-
-const StyledContainer = styled(Container)({
-  marginTop: "5rem",
-  display: "flex",
-  alignItems: "center",
-});
+import { useEffect, useState } from "react";
 
 const Home = () => {
   const [todos, setTodos] = useState(todosMock);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      const res = await fetch("http://localhost:3000/api/todos");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setTodos(data.todos);
+    };
+
+    fetchTodos();
+  }, [todos]);
   return (
-    <div>
-      <StyledContainer>
-        {todos.length === 0 ? (
-          <p>no todos available</p>
-        ) : (
-          <Grid container spacing={{ xs: 2, md: 3 }}>
-            {todos.map((todo) => {
-              return <TodoCard {...todo} />;
-            })}
-          </Grid>
-        )}
-      </StyledContainer>
-    </div>
+    <Box sx={{ padding: 4, marginTop: "5rem" }}>
+      <Typography
+        variant="subtitle2"
+        sx={{ opacity: "0.7", fontWeight: "bold" }}
+        gutterBottom
+      >
+        All Todos
+      </Typography>
+      <hr />
+      {/* for listing todo */}
+      <Stack spacing={2} sx={{ marginTop: "2rem" }}>
+        {todos.map((todo) => (
+          <Card key={todo.id} sx={{ width: "100%", height: "5rem" }}>
+            <CardContent>
+              <Typography variant="body1">{todo.title}</Typography>
+              <Typography variant="body2" color="textSecondary">
+                {todo.description}
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </Stack>
+    </Box>
   );
 };
 

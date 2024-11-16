@@ -2,6 +2,9 @@ import { Visibility } from "@mui/icons-material";
 import { Box, Card, CardContent, IconButton, Typography } from "@mui/material";
 import { Priority, Status } from "../types";
 import moment from "moment";
+import TodoDetail from "../components/TodoDetail";
+import { useState } from "react";
+
 export interface TodoCardProps {
   id?: number;
   title: string;
@@ -10,12 +13,22 @@ export interface TodoCardProps {
   status: Status;
   priority: Priority;
   user?: any;
+  imageUrl?: string;
   created_at?: string;
 }
 
 const TodoCard = ({ ...props }: TodoCardProps) => {
+  const [showTodoDetail, setShowTodoDetail] = useState(false);
+
   return (
-    <>
+    <Box>
+      {showTodoDetail && (
+        <TodoDetail
+          {...props}
+          handleClose={() => setShowTodoDetail(false)}
+          open={showTodoDetail}
+        />
+      )}
       <Card sx={{ width: "100%", mb: 1, padding: 1 }}>
         <CardContent sx={{ padding: "8px" }}>
           <Box
@@ -88,14 +101,18 @@ const TodoCard = ({ ...props }: TodoCardProps) => {
                   {props.priority}
                 </span>{" "}
               </Typography>
-              <IconButton onClick={() => {}} aria-label="view" size="small">
+              <IconButton
+                onClick={() => setShowTodoDetail(true)}
+                aria-label="view"
+                size="small"
+              >
                 <Visibility fontSize="small" />
               </IconButton>
             </Box>
           </Box>
         </CardContent>
       </Card>
-    </>
+    </Box>
   );
 };
 

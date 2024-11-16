@@ -66,3 +66,7 @@ Ensure you have the following installed on your machine:
 #### Screenshot 2
 
 ![Todo Page - View 2](./assets/todos2.png)
+
+### Todo Detail Model
+
+![Todo Page - View 2](./assets/todoDetail.png)

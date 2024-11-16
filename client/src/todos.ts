@@ -2,6 +2,7 @@ import { TodoCardProps } from "./components/TodoCard";
 
 export const todosMock: TodoCardProps[] = [
   {
+    id: 1,
     title: "Buy groceries",
     description: "Milk, eggs, bread",
     dueDate: "2024-11-20",
@@ -9,6 +10,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "HIGH",
   },
   {
+    id: 2,
     title: "Walk the dog",
     description: "Evening walk in the park",
     dueDate: "2024-11-21",
@@ -16,6 +18,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "MEDIUM",
   },
   {
+    id: 3,
     title: "Finish project report",
     description: "Complete the final report for the client",
     dueDate: "2024-11-22",
@@ -23,6 +26,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "HIGH",
   },
   {
+    id: 4,
     title: "Schedule dentist appointment",
     description: "Book an appointment with Dr. Smith",
     dueDate: "2024-11-23",
@@ -30,6 +34,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "LOW",
   },
   {
+    id: 5,
     title: "Read a book",
     description: "Read 30 pages of a book",
     dueDate: "2024-11-24",
@@ -37,6 +42,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "MEDIUM",
   },
   {
+    id: 6,
     title: "Buy new shoes",
     description: "Get a pair of running shoes",
     dueDate: "2024-11-25",
@@ -44,6 +50,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "LOW",
   },
   {
+    id: 7,
     title: "Complete coding challenge",
     description: "Finish the algorithm task",
     dueDate: "2024-11-26",
@@ -51,6 +58,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "HIGH",
   },
   {
+    id: 8,
     title: "Clean the house",
     description: "Dust and vacuum the living room",
     dueDate: "2024-11-27",
@@ -58,6 +66,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "MEDIUM",
   },
   {
+    id: 9,
     title: "Call mom",
     description: "Catch up with mom on the phone",
     dueDate: "2024-11-28",
@@ -65,6 +74,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "LOW",
   },
   {
+    id: 10,
     title: "Go for a run",
     description: "Morning jog for 30 minutes",
     dueDate: "2024-11-29",
@@ -72,6 +82,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "MEDIUM",
   },
   {
+    id: 11,
     title: "Update resume",
     description: "Add recent work experience and skills",
     dueDate: "2024-11-30",
@@ -79,6 +90,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "MEDIUM",
   },
   {
+    id: 12,
     title: "Organize desk",
     description: "Tidy up the workspace and file papers",
     dueDate: "2024-12-01",
@@ -86,6 +98,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "LOW",
   },
   {
+    id: 13,
     title: "Watch a movie",
     description: "Catch up with a new release",
     dueDate: "2024-12-02",
@@ -93,6 +106,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "LOW",
   },
   {
+    id: 14,
     title: "Prepare for presentation",
     description: "Create slides and practice",
     dueDate: "2024-12-03",
@@ -100,6 +114,7 @@ export const todosMock: TodoCardProps[] = [
     priority: "HIGH",
   },
   {
+    id: 15,
     title: "Buy birthday gift",
     description: "Get a gift for friend's birthday",
     dueDate: "2024-12-04",

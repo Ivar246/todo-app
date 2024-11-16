@@ -74,11 +74,26 @@ export class AuthService {
         expiresIn: '1d',
       });
 
-      let res = { access_token: token, user };
+      let res = { access_token: token, user, notifications: [] };
+      if (user.isFirstLogin) {
+        const unReadcomeNotification =
+          await this.notificationService.fetchUnReadNotification(user.email);
+        const welcomeNotification = unReadcomeNotification.filter(
+          (notification) => notification.type === NotificationType.WELCOME,
+        );
+        res = {
+          ...res,
+          notifications: welcomeNotification,
+        };
 
-      const unReadcomeNotification =
-        await this.notificationService.fetchUnReadNotification(user.email);
-      return { ...res, notifications: unReadcomeNotification };
+        // update notification status
+        this.notificationService.updateNotificationStatus(
+          welcomeNotification[0].id,
+          NotificationStatus.READ,
+        );
+      }
+
+      return res;
     } catch (error) {
       throw error;
     }

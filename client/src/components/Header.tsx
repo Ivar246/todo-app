@@ -7,7 +7,7 @@ import {
   ListItem,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../redux/store";
 
 import { useDispatch } from "react-redux";
@@ -41,9 +41,10 @@ const StyledTypography = styled(Typography)({
 const Header = () => {
   const { isLoggedIn } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logOutSuccess());
+    navigate("/login");
   };
   return (
     <AppBar

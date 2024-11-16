@@ -4,18 +4,15 @@ import {
   Box,
   Button,
   Container,
-  IconButton,
-  Modal,
   TextField,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Close, NotificationAdd } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { logInSuccess } from "../redux/user/userSlice";
-// import NotificationModel from "../components/NotificationModel";
+import NotificationModel from "../components/NotificationModel";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -29,17 +26,17 @@ const StyledContainer = styled(Container)({
   justifyContent: "center",
 });
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  borderRadius: "5px",
-  boxShadow: 24,
-  p: 4,
-};
+// const style = {
+//   position: "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   width: 400,
+//   bgcolor: "background.paper",
+//   borderRadius: "5px",
+//   boxShadow: 24,
+//   p: 4,
+// };
 interface LoginState {
   email: string;
   password: string;
@@ -74,47 +71,30 @@ const Login: React.FC = () => {
       if (!res.ok) throw new Error(data.message);
 
       dispatch(logInSuccess(data));
-      navigate("/todos");
+      if (data.notifications.length === 0) {
+        navigate("/todos");
+      } else {
+        setShowNotification(true);
+      }
     } catch (error) {
       if (error instanceof Error) setError(error.message);
       console.log(error);
     }
   };
+
+  const onNotificationClose = () => {
+    setShowNotification(false);
+    navigate("/todos");
+  };
   return (
     <>
-      {/* <NotificationModel message="hladfklsadj" /> */}
-      <Modal
-        open={showNotification}
-        onClose={() => console.log("kl")}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <IconButton
-            onClick={() => setShowNotification(!showNotification)}
-            aria-label="close"
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              color: (theme) => theme.palette.primary.main,
-              backgroundColor: "rgba(255, 255, 255, 0.7)",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-              },
-            }}
-          >
-            <Close />
-          </IconButton>
-          <Typography variant="h6" component="h2" sx={{ color: "#1976d2" }}>
-            Notification{" "}
-            <span>
-              <NotificationAdd />
-            </span>
-          </Typography>
-          <Typography sx={{ mt: 2 }}>Welcome to todo app</Typography>
-        </Box>
-      </Modal>
+      {showNotification && (
+        <NotificationModel
+          message="kjl"
+          onNotificationClose={onNotificationClose}
+          showNotification={showNotification}
+        />
+      )}
 
       {error && <Alert severity="error">{error}</Alert>}
       <StyledContainer>

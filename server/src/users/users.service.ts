@@ -30,6 +30,7 @@ export class UsersService {
           email: dto.email,
           password_hash: await argon.hash(dto.password),
           role: dto.role ? dto.role : Role.USER,
+          isFirstLogin: true,
         },
       });
 

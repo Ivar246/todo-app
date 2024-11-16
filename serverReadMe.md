@@ -75,7 +75,7 @@ Ensure you have the following installed:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/Ivar246/todo-app
+   git clone https://github.com/Ivar246/todo-app.git
    cd todo-app/server
    ```
 

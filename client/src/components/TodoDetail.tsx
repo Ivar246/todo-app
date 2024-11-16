@@ -18,7 +18,9 @@ interface TodoDetailProps {
   handleClose: () => void;
 }
 const modalStyle = {
-  position: "absolute" as "absolute",
+  height: "90vh",
+
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -34,16 +36,13 @@ const TodoDetail = ({ ...props }: TodoDetailProps) => {
     <Modal open={props.open} onClose={props.handleClose}>
       <Box sx={modalStyle}>
         <Box
-          component="img"
-          sx={{
-            height: "90%",
-            width: "100%",
-            maxHeight: { xs: 233, md: 167 },
-            maxWidth: { xs: 350, md: 250 },
-          }}
-          alt="todoimage"
-          src={props.imageUrl || "./assets/images/defaultTodo.png"}
-        />
+          sx={{ display: "flex", justifyContent: "center", height: "10rem" }}
+        >
+          <img
+            src={props.imageUrl || "./assets/images/defaultTodo.png"}
+            alt="Todo image"
+          />
+        </Box>
         <Typography variant="h5" gutterBottom>
           {props.title}
         </Typography>
